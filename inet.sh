@@ -1,7 +1,9 @@
-#!/bin/bash
-wget http://s000.tinyupload.com/download.php?file_id=37787414441525586105&t=3778741444152558610591759
-tar xvf e1000e
+# !/bin/bash
+
+wget https://raw.githubusercontent.com/xsergos/inet/main/e1000e.tar.gz
+tar -xvf e1000e.tar.gz
 cd e1000e/src
-make install
+pwd
+make install 
 rmmod e1000e
 modprobe e1000e
