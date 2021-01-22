@@ -12,11 +12,9 @@ enable_disable_wifi ()
    pinger=$?
    if [[ -n "$result" && "$pinger" == "0" ]];
    then
-           #nmcli radio wifi off
-           echo 1
+           nmcli radio wifi off
    else
-           #nmcli radio wifi on
-           echo 2
+           nmcli radio wifi on
    fi
 }
 
