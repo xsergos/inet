@@ -1,7 +1,6 @@
 #!/bin/sh
 #version 0.1.2
 
-
 #sudo ip a | grep link/ether >> mac.txt
 #eth=`ifconfig | grep HW | gawk '{print $1}'`
 #mac=`ifconfig | grep HW | gawk '{print $5}'`
@@ -35,7 +34,7 @@ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-ke
 sudo apt-get update
 ps cax | grep chrome > /dev/null
 if [ $? -eq 0 ]; then
-  echo "0" > /dev/null
+  echo 0 > /dev/null
 else
   sudo apt-get install google-chrome-stable -y
 fi
@@ -48,27 +47,27 @@ else
   #alias mv
   crontab -l -u dcadmin | grep  sh/mvfirewall > /dev/null
   if [ $? -eq 0 ]; then
-    echo "alias ruleupd='wget http://217.77.105.156:2050/sh/mvfirewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
+	echo "alias ruleupd='wget http://217.77.105.156:2050/sh/mvfirewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
 	grep "figlet MV" /root/.bashrc > /dev/null
 	  if [ $? -eq 0 ]; then
-	    echo 0 > /dev/null
-      else
-        echo "figlet MV" >> /root/.bashrc
-      fi
+		echo 0 > /dev/null
+	  else
+		echo "figlet MV" >> /root/.bashrc
+	  fi
 	grep "figlet MV" /home/dcuser/.bashrc > /dev/null
-      if [ $? -eq 0 ]; then
-	    echo 0 > /dev/null
-      else
-        echo "figlet MV" >> /home/dcuser/.bashrc
-      fi
+	  if [ $? -eq 0 ]; then
+		echo 0 > /dev/null
+	  else
+		echo "figlet MV" >> /home/dcuser/.bashrc
+	  fi
 	grep "figlet MV" /home/dcadmin/.bashrc > /dev/null
-      if [ $? -eq 0 ]; then
-	    echo 0 > /dev/null
-      else
-        echo "figlet MV" >> /home/dcadmin/.bashrc
-      fi
+	  if [ $? -eq 0 ]; then
+		echo 0 > /dev/null
+	  else
+		echo "figlet MV" >> /home/dcadmin/.bashrc
+	  fi
   else
-    echo 0 > /dev/null
+	echo 0 > /dev/null
   fi  
   #alias el
   crontab -l -u dcadmin | grep  sh/firewall > /dev/null
@@ -76,22 +75,22 @@ else
 	echo "alias ruleupd='wget http://217.77.105.156:2050/sh/firewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
 	grep "figlet EL" /root/.bashrc > /dev/null
 	  if [ $? -eq 0 ]; then
-	    echo 0 > /dev/null
-      else
-        echo "figlet EL" >> /root/.bashrc
-      fi
+		echo 0 > /dev/null
+	  else
+		echo "figlet EL" >> /root/.bashrc
+	  fi
 	grep "figlet EL" /home/dcuser/.bashrc > /dev/null
-      if [ $? -eq 0 ]; then
-	    echo 0 > /dev/null
-      else
-        echo "figlet EL" >> /home/dcuser/.bashrc
-      fi
+	  if [ $? -eq 0 ]; then
+		echo 0 > /dev/null
+	  else
+		echo "figlet EL" >> /home/dcuser/.bashrc
+	  fi
 	grep "figlet EL" /home/dcadmin/.bashrc > /dev/null
-      if [ $? -eq 0 ]; then
-	    echo 0 > /dev/null
-      else
-        echo "figlet EL" >> /home/dcadmin/.bashrc
-      fi
+	  if [ $? -eq 0 ]; then
+		echo 0 > /dev/null
+	  else
+		echo "figlet EL" >> /home/dcadmin/.bashrc
+	  fi
   else
 	echo 0 > /dev/null
   fi
