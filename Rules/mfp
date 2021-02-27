@@ -1,0 +1,4 @@
+#!/bin/sh
+
+getmfp=$(lpstat -v | sed 's/устройство для //g' | sed -r 's/:.+//')
+cupsenable $getmfp

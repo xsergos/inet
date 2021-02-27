@@ -1,0 +1,617 @@
+#!/bin/sh
+#version 0.1.2
+
+#sudo ip a | grep link/ether >> mac.txt
+#eth=`ifconfig | grep HW | gawk '{print $1}'`
+#mac=`ifconfig | grep HW | gawk '{print $5}'`
+#ws=`wget -qO- eth0.me`;
+#hs=`hostname`;
+#all=$eth\_$mac\_$ws\_$hs;
+#echo $all
+#wget http://217.77.105.156:2090/hooks/uptime-webhook?msg=$all
+
+#wifi fix
+wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi.sh
+chmod +x /etc/cron.hourly/wifi.sh
+
+#unpause mfp
+wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp.sh
+chmod +x /etc/cron.hourly/mfp.sh
+
+#autofsck after 5 reboot
+disk=$(eval $(lsblk -o MOUNTPOINT,NAME -P | grep 'MOUNTPOINT="/"'); echo $NAME )
+tune2fs -c 5  /dev/$disk
+
+#fsck auto-fix
+sudo sed -i "s/^\#FSCKFIX=no/FSCKFIX=yes/" /etc/default/rcS
+
+#Fix error-window
+sudo sed -i "s/^enabled=1/enabled=0/" /etc/default/apport
+
+#chrome
+iptables -F
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo apt-get update
+ps cax | grep chrome > /dev/null
+if [ $? -eq 0 ]; then
+  echo "0" > /dev/null
+else
+  sudo apt-get install google-chrome-stable -y
+fi
+
+#alias & ident
+grep "ruleupd" /root/.bashrc > /dev/null
+if [ $? -eq 0 ]; then
+  echo 0 > /dev/null
+else
+  #alias mv
+  crontab -l -u dcadmin | grep  sh/mvfirewall > /dev/null
+  if [ $? -eq 0 ]; then
+    echo "alias ruleupd='wget http://217.77.105.156:2050/sh/mvfirewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
+	grep "figlet MV" /root/.bashrc > /dev/null
+      if [ $? -eq 0 ]; then
+	    echo 0 > /dev/null
+      else
+        echo "figlet MV" >> /root/.bashrc
+      fi
+	grep "figlet MV" /home/dcuser/.bashrc > /dev/null
+      if [ $? -eq 0 ]; then
+	    echo 0 > /dev/null
+      else
+        echo "figlet MV" >> /home/dcuser/.bashrc
+      fi
+	grep "figlet MV" /home/dcadmin/.bashrc > /dev/null
+      if [ $? -eq 0 ]; then
+	    echo 0 > /dev/null
+      else
+        echo "figlet MV" >> /home/dcadmin/.bashrc
+      fi
+   else
+  else
+    echo 0 > /dev/null
+  fi  
+  #alias el
+  crontab -l -u dcadmin | grep  sh/firewall > /dev/null
+    if [ $? -eq 0 ]; then
+	echo "alias ruleupd='wget http://217.77.105.156:2050/sh/firewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
+	grep "figlet EL" /root/.bashrc > /dev/null
+      if [ $? -eq 0 ]; then
+	    echo 0 > /dev/null
+      else
+        echo "figlet EL" >> /root/.bashrc
+      fi
+	grep "figlet EL" /home/dcuser/.bashrc > /dev/null
+      if [ $? -eq 0 ]; then
+	    echo 0 > /dev/null
+      else
+        echo "figlet EL" >> /home/dcuser/.bashrc
+      fi
+	grep "figlet EL" /home/dcadmin/.bashrc > /dev/null
+      if [ $? -eq 0 ]; then
+	    echo 0 > /dev/null
+      else
+        echo "figlet EL" >> /home/dcadmin/.bashrc
+      fi
+   else
+	echo 0 > /dev/null
+  fi
+  
+fi
+
+#gcalc
+sudo apt-get install gcalctool unrar -y
+
+#teamviewer
+sudo systemctl enable teamviewerd
+sed -i '/Security_PasswordStrength/d' /etc/teamviewer/global.conf
+sed -i '/Always_Online/d' /etc/teamviewer/global.conf
+
+
+#iptables
+iptables -P FORWARD ACCEPT
+iptables -A INPUT -i lo -j ACCEPT
+
+#LK direct
+iptables -t filter -A INPUT -p tcp --sport 443 -d lk.direct-credit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d lk.direct-credit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d lk.direct-credit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d lk.direct-credit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d newprod.direct-credit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d newprod.direct-credit.ru -j ACCEPT
+
+#Portal direct
+iptables -t filter -A INPUT -p tcp --sport 80 -d portal.direct-credit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d portal.direct-credit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d portal.direct-credit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d portal.direct-credit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d wabi-west-europe-b-primary-api.analysis.windows.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d wabi-west-europe-b-primary-api.analysis.windows.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d wabi-west-europe-b-primary-api.analysis.windows.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d wabi-west-europe-b-primary-api.analysis.windows.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d app.powerbi.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d app.powerbi.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d app.powerbi.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d app.powerbi.com -j ACCEPT
+
+#Vash kontrol
+iptables -t filter -A INPUT -p tcp --sport 443 -d vashkontrol.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d vashkontrol.ru -j ACCEPT
+
+
+#Verme
+iptables -t filter -A INPUT -p tcp --sport 80 -d outsourcing.verme.ru  -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d outsourcing.verme.ru  -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d outsourcing.verme.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d outsourcing.verme.ru -j ACCEPT
+
+#Mail mvideo
+iptables -t filter -A INPUT -p tcp --sport 443 -d mail.mvideo.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d mail.mvideo.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d mail.mvideo.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d mail.mvideo.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 91.213.51.103 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 91.213.51.103 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d 91.213.51.103 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d 91.213.51.103 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 91.220.181.13 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 91.220.181.13 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d 91.220.181.13 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d 91.220.181.13 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 91.220.181.5 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 91.220.181.5 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d 91.220.181.5 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d 91.220.181.5 -j ACCEPT
+
+#DC2B
+iptables -t filter -A INPUT -p tcp --sport 80 -d dc2b.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d dc2b.ru -j ACCEPT
+
+#Firewall
+iptables -t filter -A INPUT -p tcp --sport 80 -d 193.106.73.63 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d 193.106.73.63 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d 217.77.105.156 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d 217.77.105.156 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ru.archive.ubuntu.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ru.archive.ubuntu.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ru.archive.ubuntu.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ru.archive.ubuntu.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d security.ubuntu.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d security.ubuntu.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d security.ubuntu.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d security.ubuntu.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ppa.launchpad.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ppa.launchpad.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ppa.launchpad.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ppa.launchpad.net -j ACCEPT
+
+#IETab
+iptables -t filter -A INPUT -p tcp --sport 80 -d ietab.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ietab.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d www.ietab.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d www.ietab.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ietab.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ietab.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d www.ietab.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d www.ietab.net -j ACCEPT
+
+#Sbis
+iptables -t filter -A INPUT -p tcp --sport 80 -d sbis.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d sbis.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d sbis.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d sbis.ru -j ACCEPT
+
+#DaData
+iptables -t filter -A INPUT -p tcp --sport 80 -d dadata.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d dadata.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d dadata.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d dadata.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d suggestions.dadata.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d suggestions.dadata.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d suggestions.dadata.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d suggestions.dadata.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d barcode.tec-it.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d barcode.tec-it.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d barcode.tec-it.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d barcode.tec-it.com -j ACCEPT
+
+#2gis
+iptables -t filter -A INPUT -p tcp --sport 80 -d 2gis.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d 2gis.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 2gis.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 2gis.ru -j ACCEPT
+
+#Webcamtest
+iptables -t filter -A INPUT -p tcp --sport 80 -d webcamtest.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d webcamtest.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d webcamtest.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d webcamtest.ru -j ACCEPT
+
+#Rapida
+iptables -t filter -A INPUT -p tcp --sport 80 -d rapida.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d rapida.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d rapida.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d rapida.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d service.rapida.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d service.rapida.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d service.rapida.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d service.rapida.ru -j ACCEPT
+
+#Webinar
+iptables -t filter -A INPUT -p tcp --sport 443 -d webinar.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d webinar.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d live-sd.webinar.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d live-sd.webinar.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d live-m9.webinar.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d live-m9.webinar.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d events.webinar.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d events.webinar.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d msg-v3-2-sd.webinar.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d msg-v3-2-sd.webinar.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d msg-v3-2-sd.webinar.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d msg-v3-2-sd.webinar.ru -j ACCEPT
+
+#Mvideo
+#iptables -t filter -A INPUT -p tcp --sport 443 -d static.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 443 -d static.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 80 -d static.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 80 -d static.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 80 -d img.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 80 -d img.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 443 -d img.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 443 -d img.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 80 -d mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 80 -d mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 443 -d mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 443 -d mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 80 -d ep.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 80 -d ep.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 443 -d ep.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 443 -d ep.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 80 -d assets.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 80 -d assets.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 443 -d assets.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 443 -d assets.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 80 -d cms.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 80 -d cms.mvideo.ru -j ACCEPT
+#iptables -t filter -A INPUT -p tcp --sport 443 -d cms.mvideo.ru -j ACCEPT
+#iptables -t filter -A OUTPUT -p tcp --dport 443 -d cms.mvideo.ru -j ACCEPT
+
+#Eldo
+iptables -t filter -A INPUT -p tcp --sport 80 -d eldorado.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d eldorado.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d eldorado.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d eldorado.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d static.eldorado.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d static.eldorado.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d static.eldorado.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d static.eldorado.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d front.redllama.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d front.redllama.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d front.redllama.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d front.redllama.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d assets.flocktory.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d assets.flocktory.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d assets.flocktory.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d assets.flocktory.com -j ACCEPT
+
+#Yandex(mail, mv, eldo)
+iptables -t filter -A INPUT -p tcp --sport 465 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 465 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 25 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 25 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 587 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 587 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 213.180.204.0/24 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 213.180.204.0/24 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 213.180.193.0/24 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 213.180.193.0/24 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 87.250.250.0/24 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 87.250.250.0/24 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 93.158.128.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 93.158.128.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 95.108.128.0/17 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 95.108.128.0/17 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 100.43.64.0/19 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 100.43.64.0/19 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 130.193.32.0/19 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 130.193.32.0/19 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 141.8.128.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 141.8.128.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 178.154.128.0/17 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 178.154.128.0/17 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 199.21.96.0/30 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 199.21.96.0/30 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 199.36.240.0/30 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 199.36.240.0/30 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 213.180.192.0/19 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 213.180.192.0/19 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 87.250.224.0/19 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 87.250.224.0/19 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 5.255.192.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 5.255.192.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 5.45.192.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 5.45.192.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 77.88.0.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 77.88.0.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 77.88.55.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 77.88.55.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 37.9.64.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 37.9.64.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 37.140.128.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 37.140.128.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 34.201.128.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 34.201.128.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 84.201.128.0/18 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 84.201.128.0/18 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d push.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d push.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d cloud-api.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d cloud-api.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d awaps.yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d awaps.yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns1.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns1.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns1.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ns1.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns2.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns2.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns2.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ns2.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns3.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns3.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns3.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --sport 443 -d ns3.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns4.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns4.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns4.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --sport 443 -d ns4.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns5.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns5.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns5.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ns5.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns6.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns6.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns6.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ns6.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns7.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns7.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns7.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ns7.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns8.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns8.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns8.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ns8.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns9.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns9.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns9.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ns9.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ns10.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ns10.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ns10.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ns10.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d sysadmin.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d sysadmin.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d sysadmin.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d sysadmin.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d smtp.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d imap.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d imap.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d imap.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d imap.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d mc.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d mc.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d webattach.mail.yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d webattach.mail.yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d webattach.mail.yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d webattach.mail.yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d docviewer.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d docviewer.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ya.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ya.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d disk.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d disk.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d downloader.disk.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d an.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d an.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d avatars.mds.yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d avatars.mds.yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d s59vla.storage.yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d s59vla.storage.yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d s228sas.storage.yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d s228sas.storage.yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d s228sas.storage.yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d s228sas.storage.yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d mail.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d mail.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d passport.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d passport.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d passport.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d passport.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ext.captcha.yandex.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ext.captcha.yandex.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d yastatic.net -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d yastatic.net -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d yadi.sk -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d yadi.sk -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d clck.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d clck.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d api-maps.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d api-maps.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d api-maps.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d api-maps.yandex.ru -j ACCEPT
+
+#Google
+iptables -t filter -A INPUT -p tcp --sport 443 -d www.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d www.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d blackfishsoftware.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d blackfishsoftware.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d apis.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d apis.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ssl.google-analytics.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ssl.google-analytics.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d dl.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d dl.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d dl.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d dl.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d tools.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d tools.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d drive.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d drive.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d www.gstatic.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d www.gstatic.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d www.gstatic.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d www.gstatic.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d ssl.gstatic.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d ssl.gstatic.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d ssl.gstatic.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d ssl.gstatic.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d docs.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d docs.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d fonts.googleapis.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d fonts.googleapis.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d fonts.googleapis.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d fonts.googleapis.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d goo.gl -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d goo.gl -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d google-analytics.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d google-analytics.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d script.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d script.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d chrome.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d chrome.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d www.chromestatus.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d www.chromestatus.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d smartlock.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d smartlock.google.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d smartlock.google.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d smartlock.google.com -j ACCEPT
+
+#FMS
+iptables -t filter -A INPUT -p tcp --sport 80 -d services.fms.gov.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d services.fms.gov.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d services.fms.gov.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d services.fms.gov.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d fms.gov.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d fms.gov.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d fms.gov.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d fms.gov.ru -j ACCEPT
+
+#FSSP
+iptables -t filter -A INPUT -p tcp --sport 80 -d fssprus.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d fssprus.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d fssprus.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d fssprus.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d fssp.gov.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d fssp.gov.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d fssp.gov.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d fssp.gov.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d stat.sputnik.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d stat.sputnik.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d sputnik.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d sputnik.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d counter.yadro.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d counter.yadro.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d downloader.disk.yandex.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d downloader.disk.yandex.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d downloader.disk.yandex.ru -j ACCEPT
+
+#Kontur focus
+iptables -t filter -A INPUT -p tcp --sport 443 -d focus.kontur.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d focus.kontur.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d focus.kontur.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d focus.kontur.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d is.fssprus.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d is.fssprus.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d gosmonitor.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d gosmonitor.ru -j ACCEPT
+
+#MVD
+iptables -t filter -A INPUT -p tcp --sport 80 -d xn--b1aew.xn--p1ai -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d xn--b1aew.xn--p1ai -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d xn--b1aew.xn--p1ai -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d xn--b1aew.xn--p1ai -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d xn--b1afk4ade4e.xn--b1ab2a0a.xn--b1aew.xn--p1ai -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d xn--b1afk4ade4e.xn--b1ab2a0a.xn--b1aew.xn--p1ai -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d xn--b1afk4ade4e.xn--b1ab2a0a.xn--b1aew.xn--p1ai -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d xn--b1afk4ade4e.xn--b1ab2a0a.xn--b1aew.xn--p1ai -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d guvm.mvd.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d guvm.mvd.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d guvm.mvd.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d guvm.mvd.ru -j ACCEPT
+
+#Other
+iptables -t filter -A INPUT -p tcp --sport 443 -d p.kreditotdel.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d p.kreditotdel.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d p.kreditotdel.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d p.kreditotdel.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 178.248.236.168 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 178.248.236.168 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d 178.248.236.168 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d 178.248.236.168 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d 92.255.48.8 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d 92.255.48.8 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d 92.255.48.8 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d 92.255.48.8 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d da.kreditotdel.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d da.kreditotdel.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d da.kreditotdel.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d da.kreditotdel.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d da2.kreditotdel.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d da2.kreditotdel.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d yes-man.pro -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d yes-man.pro -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d yes-man.pro -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d yes-man.pro -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d homecredit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d homecredit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d homer.homecredit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d homer.homecredit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d homer.homecredit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d homer.homecredit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d download.macromedia.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d download.macromedia.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d vsegda-da.credit -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d vsegda-da.credit -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d vsegda-da.credit -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d vsegda-da.credit -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d onlinecredit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d onlinecredit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d onlinecredit.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d onlinecredit.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d application.vsegda-da.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d application.vsegda-da.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d application.vsegda-da.com -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d application.vsegda-da.com -j ACCEPT
+
+#Local
+iptables -t filter -A INPUT -p tcp -s 172.16.0.0/16 --dport 80 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp -d 172.16.0.0/16 --dport 80 -j ACCEPT
+iptables -t filter -A INPUT -p tcp -s 172.16.0.0/16 --dport 443 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp -d 172.16.0.0/16 --dport 443 -j ACCEPT
+iptables -t filter -A INPUT -p tcp -s 192.168.1.0/24 --dport 80 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp -d 192.168.1.0/24 --dport 80 -j ACCEPT
+iptables -t filter -A INPUT -p tcp -s 192.168.1.0/24 --dport 443 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp -d 192.168.1.0/24 --dport 443 -j ACCEPT
+
+#4g modem
+iptables -t filter -A INPUT -p tcp -s 192.168.8.0/24 --dport 80 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp -d 192.168.8.0/24 --dport 80 -j ACCEPT
+iptables -t filter -A INPUT -p tcp -s 192.168.8.0/24 --dport 443 -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp -d 192.168.8.0/24 --dport 443 -j ACCEPT
+
+#Block, if not allow
+iptables -t filter -A INPUT -p tcp --dport 80 -j REJECT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -j REJECT
+iptables -t filter -A INPUT -p tcp --dport 443 -j REJECT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -j REJECT
+
+sudo apt-get autoremove -y
+
+echo "Done"
