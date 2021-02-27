@@ -66,13 +66,12 @@ else
       else
         echo "figlet MV" >> /home/dcadmin/.bashrc
       fi
-   else
   else
     echo 0 > /dev/null
   fi  
   #alias el
   crontab -l -u dcadmin | grep  sh/firewall > /dev/null
-    if [ $? -eq 0 ]; then
+  if [ $? -eq 0 ]; then
 	echo "alias ruleupd='wget http://217.77.105.156:2050/sh/firewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
 	grep "figlet EL" /root/.bashrc > /dev/null
       if [ $? -eq 0 ]; then
@@ -92,10 +91,9 @@ else
       else
         echo "figlet EL" >> /home/dcadmin/.bashrc
       fi
-   else
+  else
 	echo 0 > /dev/null
   fi
-  
 fi
 
 #gcalc
