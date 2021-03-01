@@ -11,16 +11,16 @@
 #wget http://217.77.105.156:2090/hooks/uptime-webhook?msg=$all
 
 #wifi fix
-wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi.sh
-chmod +x /etc/cron.hourly/wifi.sh
+wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
+chmod +x /etc/cron.hourly/wifi
 
 #unpause mfp
-wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp.sh
-chmod +x /etc/cron.hourly/mfp.sh
+wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
+chmod +x /etc/cron.hourly/mfp
 
 #autofsck after 5 reboot
 disk=$(eval $(lsblk -o MOUNTPOINT,NAME -P | grep 'MOUNTPOINT="/"'); echo $NAME )
-tune2fs -c 5  /dev/$disk
+sudo tune2fs -c 5  /dev/$disk
 
 #fsck auto-fix
 sudo sed -i "s/^\#FSCKFIX=no/FSCKFIX=yes/" /etc/default/rcS
@@ -66,6 +66,9 @@ else
 	  else
 		echo "figlet MV" >> /home/dcadmin/.bashrc
 	  fi
+	sed -i '/figlet EL/d' /home/dcuser/.bashrc
+	sed -i '/figlet EL/d' /home/dcadmin/.bashrc
+	sed -i '/figlet EL/d' /root/.bashrc
   else
 	echo 0 > /dev/null
   fi  
@@ -91,6 +94,9 @@ else
 	  else
 		echo "figlet EL" >> /home/dcadmin/.bashrc
 	  fi
+	sed -i '/figlet MV/d' /home/dcuser/.bashrc
+	sed -i '/figlet MV/d' /home/dcadmin/.bashrc
+	sed -i '/figlet MV/d' /root/.bashrc
   else
 	echo 0 > /dev/null
   fi
