@@ -1,5 +1,5 @@
 #!/bin/sh
-#version 0.1.2
+#version 0.1.3
 
 #sudo ip a | grep link/ether >> mac.txt
 #eth=`ifconfig | grep HW | gawk '{print $1}'`
@@ -109,7 +109,12 @@ sudo apt-get install gcalctool unrar -y
 sudo systemctl enable teamviewerd
 sed -i '/Security_PasswordStrength/d' /etc/teamviewer/global.conf
 sed -i '/Always_Online/d' /etc/teamviewer/global.conf
-sudo systemctl restart teamviewerd
+ps cax | grep "TeamViewer_Desk" > /dev/null
+if [ $? -eq 0 ]; then
+  echo 0 > /dev/null
+else
+  sudo systemctl restart teamviewerd
+fi
 
 #iptables
 iptables -P FORWARD ACCEPT
@@ -138,6 +143,10 @@ iptables -t filter -A INPUT -p tcp --sport 80 -d app.powerbi.com -j ACCEPT
 iptables -t filter -A OUTPUT -p tcp --dport 80 -d app.powerbi.com -j ACCEPT
 iptables -t filter -A INPUT -p tcp --sport 443 -d app.powerbi.com -j ACCEPT
 iptables -t filter -A OUTPUT -p tcp --dport 443 -d app.powerbi.com -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 80 -d dc2b.lms.mirapolis.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d dc2b.lms.mirapolis.ru -j ACCEPT
+iptables -t filter -A INPUT -p tcp --sport 443 -d dc2b.lms.mirapolis.ru -j ACCEPT
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d dc2b.lms.mirapolis.ru -j ACCEPT
 
 #Vash kontrol
 iptables -t filter -A INPUT -p tcp --sport 443 -d vashkontrol.ru -j ACCEPT
