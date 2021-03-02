@@ -13,10 +13,12 @@
 #wifi fix
 wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
 chmod +x /etc/cron.hourly/wifi
+sudo bash /etc/cron.hourly/wifi
 
 #unpause mfp
 wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
 chmod +x /etc/cron.hourly/mfp
+sudo bash /etc/cron.hourly/mfp
 
 #autofsck after 5 reboot
 disk=$(eval $(lsblk -o MOUNTPOINT,NAME -P | grep 'MOUNTPOINT="/"'); echo $NAME )
@@ -39,67 +41,33 @@ else
   sudo apt-get install google-chrome-stable -y
 fi
 
-#alias & ident
-grep "ruleupd" /root/.bashrc > /dev/null
+#ident & alias
+sudo sed -i '/figlet MV/d' /home/dcuser/.bashrc
+sudo sed -i '/figlet MV/d' /home/dcadmin/.bashrc
+sudo sed -i '/figlet MV/d' /root/.bashrc
+sudo sed -i '/figlet EL/d' /home/dcuser/.bashrc
+sudo sed -i '/figlet EL/d' /home/dcadmin/.bashrc
+sudo sed -i '/figlet EL/d' /root/.bashrc
+sudo sed -i '/ruleupd/d' /root/.bashrc
+
+crontab -l -u dcadmin | grep  sh/mvfirewall > /dev/null
 if [ $? -eq 0 ]; then
-  echo 0 > /dev/null
+  echo "figlet MV" >> /home/dcuser/.bashrc
+  echo "figlet MV" >> /home/dcadmin/.bashrc
+  echo "figlet MV" >> /root/.bashrc
+  echo "alias ruleupd='wget http://217.77.105.156:2050/sh/mvfirewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
 else
-  #alias mv
-  crontab -l -u dcadmin | grep  sh/mvfirewall > /dev/null
-  if [ $? -eq 0 ]; then
-	echo "alias ruleupd='wget http://217.77.105.156:2050/sh/mvfirewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
-	grep "figlet MV" /root/.bashrc > /dev/null
-	  if [ $? -eq 0 ]; then
-		echo 0 > /dev/null
-	  else
-		echo "figlet MV" >> /root/.bashrc
-	  fi
-	grep "figlet MV" /home/dcuser/.bashrc > /dev/null
-	  if [ $? -eq 0 ]; then
-		echo 0 > /dev/null
-	  else
-		echo "figlet MV" >> /home/dcuser/.bashrc
-	  fi
-	grep "figlet MV" /home/dcadmin/.bashrc > /dev/null
-	  if [ $? -eq 0 ]; then
-		echo 0 > /dev/null
-	  else
-		echo "figlet MV" >> /home/dcadmin/.bashrc
-	  fi
-	sed -i '/figlet EL/d' /home/dcuser/.bashrc
-	sed -i '/figlet EL/d' /home/dcadmin/.bashrc
-	sed -i '/figlet EL/d' /root/.bashrc
-  else
-	echo 0 > /dev/null
-  fi  
-  #alias el
-  crontab -l -u dcadmin | grep  sh/firewall > /dev/null
-  if [ $? -eq 0 ]; then
-	echo "alias ruleupd='wget http://217.77.105.156:2050/sh/firewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
-	grep "figlet EL" /root/.bashrc > /dev/null
-	  if [ $? -eq 0 ]; then
-		echo 0 > /dev/null
-	  else
-		echo "figlet EL" >> /root/.bashrc
-	  fi
-	grep "figlet EL" /home/dcuser/.bashrc > /dev/null
-	  if [ $? -eq 0 ]; then
-		echo 0 > /dev/null
-	  else
-		echo "figlet EL" >> /home/dcuser/.bashrc
-	  fi
-	grep "figlet EL" /home/dcadmin/.bashrc > /dev/null
-	  if [ $? -eq 0 ]; then
-		echo 0 > /dev/null
-	  else
-		echo "figlet EL" >> /home/dcadmin/.bashrc
-	  fi
-	sed -i '/figlet MV/d' /home/dcuser/.bashrc
-	sed -i '/figlet MV/d' /home/dcadmin/.bashrc
-	sed -i '/figlet MV/d' /root/.bashrc
-  else
-	echo 0 > /dev/null
-  fi
+  echo 0 > /dev/null
+fi
+
+crontab -l -u dcadmin | grep  sh/firewall > /dev/null
+if [ $? -eq 0 ]; then
+  echo "figlet EL" >> /home/dcuser/.bashrc
+  echo "figlet EL" >> /home/dcadmin/.bashrc
+  echo "figlet EL" >> /root/.bashrc
+  echo "alias ruleupd='wget http://217.77.105.156:2050/sh/firewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
+else
+  echo 0 > /dev/null
 fi
 
 #gcalc
@@ -107,8 +75,8 @@ sudo apt-get install gcalctool unrar -y
 
 #teamviewer
 sudo systemctl enable teamviewerd
-sed -i '/Security_PasswordStrength/d' /etc/teamviewer/global.conf
-sed -i '/Always_Online/d' /etc/teamviewer/global.conf
+sudo sed -i '/Security_PasswordStrength/d' /etc/teamviewer/global.conf
+sudo sed -i '/Always_Online/d' /etc/teamviewer/global.conf
 ps cax | grep "TeamViewer_Desk" > /dev/null
 if [ $? -eq 0 ]; then
   echo 0 > /dev/null
