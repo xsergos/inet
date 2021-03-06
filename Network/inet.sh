@@ -1,7 +1,7 @@
 #!/bin/bash
 
 iptables -F
-if lshw -short -c network | grep 8168 2> /dev/null
+if lshw -short -c network | grep 8168 > /dev/null
 then
 	wget https://raw.githubusercontent.com/xsergos/inet/main/Network/r8168.deb
 	dpkg -i r8168.deb
