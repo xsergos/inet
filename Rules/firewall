@@ -1,24 +1,54 @@
 #!/bin/sh
-#version 0.1.4
+#version 0.1.5
 
-#sudo ip a | grep link/ether >> mac.txt
-#eth=`ifconfig | grep HW | gawk '{print $1}'`
-#mac=`ifconfig | grep HW | gawk '{print $5}'`
-#ws=`wget -qO- eth0.me`;
-#hs=`hostname`;
-#all=$eth\_$mac\_$ws\_$hs;
-#echo $all
-#wget http://217.77.105.156:2090/hooks/uptime-webhook?msg=$all
+#Clean firewall
+iptables -F
+iptables -P FORWARD ACCEPT
+iptables -P INPUT ACCEPT
 
-#var
+#Winbox update
+wget https://mt.lv/winbox -O /home/dcuser/winbox.exe
+
+#Download and run wifi fix
+wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
+chmod +x /etc/cron.hourly/wifi
+sudo bash /etc/cron.hourly/wifi
+
+#Download and run mfp fix
+wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
+chmod +x /etc/cron.hourly/mfp
+bash /etc/cron.hourly/mfp
+
+#Autorun fsck after 5 reboots
+disk=$(eval "$(lsblk -o MOUNTPOINT,NAME -P | grep 'MOUNTPOINT="/"')"; echo "$NAME")
+tune2fs -c 5 /dev/"$disk"
+
+#Enable fsck autofix
+sed -i "s/^\#FSCKFIX=no/FSCKFIX=yes/" /etc/default/rcS
+
+#Fix error-window
+sed -i "s/^enabled=1/enabled=0/" /etc/default/apport
+
+#Clean apt sources
+if ls /etc/apt/sources.list.d/hanipouspilot* > /dev/null 2>&1
+then
+	rm /etc/apt/sources.list.d/hanipouspilot*
+fi
+
+#Chrome
+dpkg --configure -a
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+apt-get update
+if ! pgrep chrome > /dev/null
+then
+	apt-get install google-chrome-stable -y
+fi
+
+#Gcalc and Unrar
+apt-get install gcalctool unrar -y
+
+#Simple Scan config
 ss="gsettings set org.gnome.SimpleScan"
-
-#func
-echoz(){
-echo 0 > /dev/null
-}
-
-#scan fix
 $ss brightness 0
 $ss contrast 0
 $ss document-type photo
@@ -29,46 +59,7 @@ $ss paper-width 2100
 $ss photo-dpi 300
 $ss text-dpi 300
 
-#wifi fix
-wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
-chmod +x /etc/cron.hourly/wifi
-sudo bash /etc/cron.hourly/wifi
-
-#unpause mfp
-wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
-chmod +x /etc/cron.hourly/mfp
-bash /etc/cron.hourly/mfp
-
-#autofsck after 5 reboot
-disk=$(eval $(lsblk -o MOUNTPOINT,NAME -P | grep 'MOUNTPOINT="/"'); echo $NAME )
-tune2fs -c 5  /dev/$disk
-
-#fsck auto-fix
-sed -i "s/^\#FSCKFIX=no/FSCKFIX=yes/" /etc/default/rcS
-
-#Fix error-window
-sed -i "s/^enabled=1/enabled=0/" /etc/default/apport
-
-#clean apt-get
-ls /etc/apt/sources.list.d/ | grep hanipouspilot > /dev/null
-if [ $? -eq 0 ]; then
-	rm "/etc/apt/sources.list.d/hani"*
-else
-	echoz
-fi
-
-#chrome
-iptables -F
-wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-apt-get update
-ps cax | grep chrome > /dev/null
-if [ $? -eq 0 ]; then
-	echoz
-else
-	apt-get install google-chrome-stable -y
-fi
-
-#ident & alias
+#Rules ident and alias
 sed -i '/figlet MV/d' /home/dcuser/.bashrc
 sed -i '/figlet MV/d' /home/dcadmin/.bashrc
 sed -i '/figlet MV/d' /root/.bashrc
@@ -82,39 +73,26 @@ sed -i '/eldo/d' /root/.bashrc
 echo "alias mvideo='crontab -l -u dcadmin > /tmp/crontab.tmp && sed -i \"s/sh\/firewall/sh\/mvfirewall/g\" /tmp/crontab.tmp && crontab -u dcadmin /tmp/crontab.tmp'" >> /root/.bashrc
 echo "alias eldo='crontab -l -u dcadmin > /tmp/crontab.tmp && sed -i \"s/sh\/mvfirewall/sh\/firewall/g\" /tmp/crontab.tmp && crontab -u dcadmin /tmp/crontab.tmp'" >> /root/.bashrc
 
-crontab -l -u dcadmin | grep  sh/mvfirewall > /dev/null
-if [ $? -eq 0 ]; then
+if crontab -l -u dcadmin | grep sh/mvfirewall > /dev/null
+then
 	echo "figlet MV" | tee -a /home/dcuser/.bashrc /home/dcadmin/.bashrc /root/.bashrc > /dev/null
 	echo "alias ruleupd='wget http://217.77.105.156:2050/sh/mvfirewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
-else
-	echoz
 fi
 
-crontab -l -u dcadmin | grep  sh/firewall > /dev/null
-if [ $? -eq 0 ]; then
+if crontab -l -u dcadmin | grep sh/firewall > /dev/null
+then
 	echo "figlet EL" | tee -a /home/dcuser/.bashrc /home/dcadmin/.bashrc /root/.bashrc > /dev/null
 	echo "alias ruleupd='wget http://217.77.105.156:2050/sh/firewall --output-document=/etc/network/if-up.d/firewall && bash /etc/network/if-up.d/firewall'" >> /root/.bashrc
-else
-	echoz
 fi
 
-#gcalc & unrar
-apt-get install gcalctool unrar -y
-
-#teamviewer
+#Teamviewer
 systemctl enable teamviewerd
 sed -i '/Security_PasswordStrength/d' /etc/teamviewer/global.conf
 sed -i '/Always_Online/d' /etc/teamviewer/global.conf
-ps cax | grep "TeamViewer_Desk" > /dev/null
-if [ $? -eq 0 ]; then
-	echoz
-else
+if ! pgrep "TeamViewer_Desk" > /dev/null
+then
 	systemctl restart teamviewerd
 fi
-
-#iptables
-iptables -P FORWARD ACCEPT
-iptables -A INPUT -i lo -j ACCEPT
 
 echo "Add rules for DK..."
 
@@ -246,6 +224,15 @@ iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d static.eldorado.ru -j AC
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d front.redllama.ru -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d assets.flocktory.com -j ACCEPT
 
+#Eldo and Mvideo subnet
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 31.200.248.0/21 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 62.152.61.0/24 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.220.0.0/16 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.231.0.0/16 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.238.0.0/16 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 93.158.194.0/24 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 151.236.0.0/16 -j ACCEPT
+
 echo "Add rules for Yandex..."
 
 #Yandex(mail, mv, eldo)
@@ -301,6 +288,7 @@ iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d yastatic.net -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d yadi.sk -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d clck.yandex.ru -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d api-maps.yandex.ru -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d enterprise.api-maps.yandex.ru -j ACCEPT
 
 echo "Add rules for Google..."
 
@@ -325,6 +313,11 @@ iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d chrome.google.com -j ACC
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d chromestatus.com -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d www.chromestatus.com -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d smartlock.google.com -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 64.233.162.0/24 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 173.194.73.0/24 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 108.177.14.0/24 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 172.217.20.0/24 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 142.250.179.0/24 -j ACCEPT
 
 #Other
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d p.kreditotdel.ru -j ACCEPT
@@ -336,6 +329,8 @@ iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d yes-man.pro -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegda-da.credit -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d onlinecredit.ru -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d application.vsegda-da.com -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegdadacom.webim.ru -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d rest.homecredit.ru -j ACCEPT
 
 echo "Add rules for Local Network..."
 

@@ -2,9 +2,7 @@
 
 pt=mail.yandex.ru
 geth=$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}')
-ping -c1 -I $geth $pt &> /dev/null
-if [ $? -eq 0 ]; then
-	sudo nmcli radio wifi off
-else
-	echo 0 > /dev/null
+if ping -c1 -I $geth $pt > /dev/null 2>&1
+then
+	nmcli radio wifi off
 fi
