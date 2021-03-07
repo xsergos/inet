@@ -1,0 +1,25 @@
+#!/bin/sh
+
+listeth(){
+lshw -c network
+}
+
+if listeth | grep "UNCLAIMED" > /dev/null
+then
+	if listeth | grep 8168 > /dev/null
+	then
+		sed -i '/r8169/d' /etc/modprobe.d/blacklist.conf
+		wget http://217.77.105.156:2050/sh/r8168.deb -O /tmp/r8168.deb
+		dpkg -i /tmp/r8168.deb
+		rmmod r8169
+		modprobe r8168
+		echo "blacklist r8169" >> /etc/modprobe.d/blacklist.conf
+	else
+		wget http://217.77.105.156:2050/sh/e1000e.tar.gz -O /tmp/e1000e.tar.gz
+		tar -C /tmp/ -xvf /tmp/e1000e.tar.gz
+		cd /tmp/e1000e/src || exit
+		make install
+		rmmod e1000e
+		modprobe e1000e
+	fi
+fi

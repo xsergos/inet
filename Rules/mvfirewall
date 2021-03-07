@@ -9,10 +9,15 @@ iptables -P INPUT ACCEPT
 #Winbox update
 wget https://mt.lv/winbox -O /home/dcuser/winbox.exe
 
+#Download and run eth fix
+wget http://217.77.105.156:2050/sh/network -O /etc/cron.hourly/network
+chmod +x /etc/cron.hourly/network
+bash /etc/cron.hourly/network
+
 #Download and run wifi fix
 wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
 chmod +x /etc/cron.hourly/wifi
-sudo bash /etc/cron.hourly/wifi
+bash /etc/cron.hourly/wifi
 
 #Download and run mfp fix
 wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
@@ -217,6 +222,8 @@ iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d mvideo.ru -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ep.mvideo.ru -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d assets.mvideo.ru -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d cms.mvideo.ru -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d static-atgplt.mvideo.ru -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d img-atgplt.mvideo.ru -j ACCEPT
 
 #Eldo
 #iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d eldorado.ru -j ACCEPT
@@ -346,6 +353,6 @@ iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 192.168.8.0/24 -j ACCEPT
 iptables -A OUTPUT -p tcp -m multiport --port 80,443 -j REJECT
 
 #clean old pkg
-sudo apt-get autoremove -y
+apt-get autoremove -y
 
 echo "Done"
