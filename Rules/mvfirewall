@@ -53,16 +53,16 @@ fi
 apt-get install gcalctool unrar -y
 
 #Simple Scan config
-ss="gsettings set org.gnome.SimpleScan"
-$ss brightness 0
-$ss contrast 0
-$ss document-type photo
-$ss jpeg-quality 75
-$ss page-side front
-$ss paper-height 2970
-$ss paper-width 2100
-$ss photo-dpi 300
-$ss text-dpi 300
+ss="sudo -H -u dcuser dbus-launch gsettings set org.gnome.SimpleScan"
+$ss brightness 0 > /dev/null 2>&1
+$ss contrast 0 > /dev/null 2>&1
+$ss document-type photo > /dev/null 2>&1
+$ss jpeg-quality 75 > /dev/null 2>&1
+$ss page-side front > /dev/null 2>&1
+$ss paper-height 2970 > /dev/null 2>&1
+$ss paper-width 2100 > /dev/null 2>&1
+$ss photo-dpi 300 > /dev/null 2>&1
+$ss text-dpi 300 > /dev/null 2>&1
 
 #Rules ident and alias
 sed -i '/figlet MV/d' /home/dcuser/.bashrc
