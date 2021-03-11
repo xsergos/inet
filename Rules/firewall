@@ -102,257 +102,261 @@ fi
 echo "Add rules for DK..."
 
 #LK direct
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d lk.direct-credit.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d newprod.direct-credit.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d lk.direct-credit.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d newprod.direct-credit.ru -j ACCEPT
 
 #Portal direct
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d portal.direct-credit.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d wabi-west-europe-b-primary-api.analysis.windows.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d app.powerbi.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d dc2b.lms.mirapolis.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d cdn.jsdelivr.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d vjs.zencdn.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d maxcdn.bootstrapcdn.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d portal.direct-credit.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d wabi-west-europe-b-primary-api.analysis.windows.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d app.powerbi.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d dc2b.lms.mirapolis.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d cdn.jsdelivr.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d vjs.zencdn.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d maxcdn.bootstrapcdn.com -j ACCEPT
 
 #Vash kontrol
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d vashkontrol.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d vashkontrol.ru -j ACCEPT
 
 #Verme
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d outsourcing.verme.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d outsourcing.verme.ru -j ACCEPT
 
 #Mail mvideo
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d mail.mvideo.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.213.51.103 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.220.181.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d mail.mvideo.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.213.51.103 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.220.181.0/24 -j ACCEPT
 
 #DC2B
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d dc2b.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d dc2b.ru -j ACCEPT
 
 echo "Add rules for OS..."
 
 #Firewall
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 193.106.73.63 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 217.77.105.156 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ru.archive.ubuntu.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d security.ubuntu.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ppa.launchpad.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d github.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d raw.githubusercontent.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 193.106.73.63 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 217.77.105.156 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ru.archive.ubuntu.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d security.ubuntu.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ppa.launchpad.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d github.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d raw.githubusercontent.com -j ACCEPT
 
 #IETab
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ietab.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d www.ietab.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d blackfishsoftware.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ietab.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d www.ietab.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d blackfishsoftware.com -j ACCEPT
 
 echo "Add rules for Information Resources..."
 
 #Sbis
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d sbis.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d sbis.ru -j ACCEPT
 
 #DaData
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d dadata.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d suggestions.dadata.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d barcode.tec-it.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d dadata.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d suggestions.dadata.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d barcode.tec-it.com -j ACCEPT
 
 #2gis
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 2gis.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d disk.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d d-assets.2gis.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d catalog.api.2gis.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d eta.api.2gis.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d favorites.api.2gis.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d s0.bss.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d www.tns-counter.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ams2-cdn.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i0.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i1.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i2.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i3.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i4.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i5.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i6.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i7.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i8.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d i9.photo.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d traffic6.edromaps.2gis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.236.51.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 2gis.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d disk.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d d-assets.2gis.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d catalog.api.2gis.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d eta.api.2gis.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d favorites.api.2gis.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d s0.bss.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d www.tns-counter.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ams2-cdn.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i0.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i1.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i2.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i3.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i4.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i5.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i6.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i7.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i8.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d i9.photo.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d traffic6.edromaps.2gis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.236.51.0/24 -j ACCEPT
 
 #Webcamtest
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ru.webcamtests.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d webcamtest.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ru.webcamtests.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d webcamtest.ru -j ACCEPT
 
 #Rapida
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d rapida.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d service.rapida.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d rapida.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d service.rapida.ru -j ACCEPT
 
 #Webinar
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d webinar.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d live-sd.webinar.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d live-m9.webinar.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d events.webinar.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d msg-v3-2-sd.webinar.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d webinar.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d live-sd.webinar.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d live-m9.webinar.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d events.webinar.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d msg-v3-2-sd.webinar.ru -j ACCEPT
 
 #FMS
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d fms.gov.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d services.fms.gov.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d fms.gov.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d services.fms.gov.ru -j ACCEPT
 
 #FSSP
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d fssprus.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d fssp.gov.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d sputnik.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d stat.sputnik.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d counter.yadro.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d fssprus.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d fssp.gov.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d sputnik.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d stat.sputnik.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d counter.yadro.ru -j ACCEPT
 
 #Kontur focus
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d focus.kontur.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d is.fssprus.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d gosmonitor.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d focus.kontur.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d is.fssprus.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d gosmonitor.ru -j ACCEPT
 
 #MVD
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d xn--b1aew.xn--p1ai -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d xn--b1afk4ade4e.xn--b1ab2a0a.xn--b1aew.xn--p1ai -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d guvm.mvd.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d xn--b1aew.xn--p1ai -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d xn--b1afk4ade4e.xn--b1ab2a0a.xn--b1aew.xn--p1ai -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d guvm.mvd.ru -j ACCEPT
 
 #Mvideo
-#iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d static.mvideo.ru -j ACCEPT
-#iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d img.mvideo.ru -j ACCEPT
-#iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d mvideo.ru -j ACCEPT
-#iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ep.mvideo.ru -j ACCEPT
-#iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d assets.mvideo.ru -j ACCEPT
-#iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d cms.mvideo.ru -j ACCEPT
-#iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d static-atgplt.mvideo.ru -j ACCEPT
-#iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d img-atgplt.mvideo.ru -j ACCEPT
+#iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d static.mvideo.ru -j ACCEPT
+#iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d img.mvideo.ru -j ACCEPT
+#iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d mvideo.ru -j ACCEPT
+#iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ep.mvideo.ru -j ACCEPT
+#iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d assets.mvideo.ru -j ACCEPT
+#iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d cms.mvideo.ru -j ACCEPT
+#iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d static-atgplt.mvideo.ru -j ACCEPT
+#iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d img-atgplt.mvideo.ru -j ACCEPT
 
 echo "Add rules for Eldorado..."
 
 #Eldo
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d eldorado.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d static.eldorado.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d front.redllama.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d assets.flocktory.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d eldorado.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d static.eldorado.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d front.redllama.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d assets.flocktory.com -j ACCEPT
 
 #Eldo and Mvideo subnet
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 31.200.248.0/21 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 62.152.61.0/24 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.220.0.0/16 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.231.0.0/16 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.238.0.0/16 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 93.158.194.0/24 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 151.236.0.0/16 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 31.200.248.0/21 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 62.152.61.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.220.0.0/16 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.231.0.0/16 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 91.238.0.0/16 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 93.158.194.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 93.171.230.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 151.236.0.0/16 -j ACCEPT
 
 echo "Add rules for Yandex..."
 
 #Yandex(mail, mv, eldo)
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 5.45.192.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 5.255.192.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 34.201.128.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 37.9.64.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 37.140.128.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 77.88.0.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 84.201.128.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 87.250.224.0/19 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 93.158.128.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 95.108.128.0/17 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 100.43.64.0/19 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 130.193.32.0/19 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 141.8.128.0/18 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 178.154.128.0/17 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 199.21.96.0/30 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 199.36.240.0/30 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 213.180.192.0/19 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d push.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d cloud-api.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d awaps.yandex.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d yandex.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns1.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns2.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns3.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns4.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns5.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns6.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns7.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns8.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns9.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ns10.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d sysadmin.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 25,80,443,587,465 -d smtp.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,143,443,993 -d imap.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d mc.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d webattach.mail.yandex.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d docviewer.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ya.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d disk.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d downloader.disk.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d an.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d avatars.mds.yandex.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d s59vla.storage.yandex.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d s228sas.storage.yandex.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d mail.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d passport.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ext.captcha.yandex.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d yastatic.net -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d yadi.sk -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d clck.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d api-maps.yandex.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d enterprise.api-maps.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 5.45.192.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 5.255.192.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 34.201.128.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 37.9.64.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 37.140.128.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 77.88.0.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 84.201.128.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 87.250.224.0/19 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 93.158.128.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 95.108.128.0/17 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 100.43.64.0/19 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 130.193.32.0/19 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 141.8.128.0/18 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 178.154.128.0/17 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 199.21.96.0/30 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 199.36.240.0/30 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 213.180.192.0/19 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d push.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d cloud-api.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d awaps.yandex.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d yandex.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns1.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns2.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns3.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns4.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns5.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns6.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns7.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns8.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns9.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ns10.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d sysadmin.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 25,80,443,587,465 -d smtp.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,143,443,993 -d imap.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d mc.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d webattach.mail.yandex.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d docviewer.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ya.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d disk.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d downloader.disk.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d an.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d avatars.mds.yandex.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d s59vla.storage.yandex.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d s228sas.storage.yandex.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d mail.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d passport.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ext.captcha.yandex.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d yastatic.net -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d yadi.sk -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d clck.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d api-maps.yandex.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d enterprise.api-maps.yandex.ru -j ACCEPT
 
 echo "Add rules for Google..."
 
 #Google
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d drive.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d tools.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d dl.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ssl.google-analytics.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d apis.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d www.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d google-analytics.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d www.google-analytics.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d goo.gl -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d fonts.googleapis.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d docs.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d ssl.gstatic.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d www.gstatic.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d gstatic.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d script.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d chrome.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d chromestatus.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d www.chromestatus.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d smartlock.google.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 64.233.162.0/24 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 173.194.73.0/24 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 108.177.14.0/24 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 172.217.20.0/24 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 142.250.179.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d drive.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d tools.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d dl.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ssl.google-analytics.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d apis.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d www.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d google-analytics.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d www.google-analytics.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d goo.gl -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d fonts.googleapis.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d docs.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d ssl.gstatic.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d www.gstatic.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d gstatic.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d script.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d chrome.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d chromestatus.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d www.chromestatus.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d smartlock.google.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 64.233.162.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 173.194.73.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 108.177.14.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 172.217.20.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 142.250.179.0/24 -j ACCEPT
 
 #Other
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d p.kreditotdel.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 178.248.236.168 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 92.255.48.8 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d da.kreditotdel.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d da2.kreditotdel.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d yes-man.pro -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegda-da.credit -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d onlinecredit.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d application.vsegda-da.com -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegdadacom.webim.ru -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d rest.homecredit.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d p.kreditotdel.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 178.248.236.168 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 92.255.48.8 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d da.kreditotdel.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d da2.kreditotdel.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d yes-man.pro -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegda-da.credit -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d onlinecredit.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d application.vsegda-da.com -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegdadacom.webim.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d rest.homecredit.ru -j ACCEPT
 
 echo "Add rules for Local Network..."
 
 #Local
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 172.16.0.0/16 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 192.168.1.0/24 -j ACCEPT
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 127.0.0.0/16 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 172.16.0.0/16 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 192.168.1.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 127.0.0.0/16 -j ACCEPT
 
 #4g modem
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -d 192.168.8.0/24 -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 192.168.8.0/24 -j ACCEPT
 
 #Block, if not allow
-iptables -A OUTPUT -p tcp -m multiport --port 80,443 -j REJECT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -j REJECT
 
 #clean old pkg
 apt-get autoremove -y
+
+#update libre
+apt-get install libreoffice -y
 
 echo "Done"
