@@ -95,10 +95,6 @@ fi
 systemctl enable teamviewerd
 sed -i '/Security_PasswordStrength/d' /etc/teamviewer/global.conf
 sed -i '/Always_Online/d' /etc/teamviewer/global.conf
-if ! pgrep "TeamViewer_Desk" > /dev/null
-then
-	systemctl restart teamviewerd
-fi
 
 echo "Add rules for DK..."
 
@@ -339,6 +335,7 @@ iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegda-da.credit -j A
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d onlinecredit.ru -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d application.vsegda-da.com -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegdadacom.webim.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d homer.homecredit.ru -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d rest.homecredit.ru -j ACCEPT
 
 echo "Add rules for Local Network..."
@@ -358,6 +355,6 @@ iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -j REJECT
 apt-get autoremove -y
 
 #update libre
-apt-get install libreoffice -y
+apt-get install libreoffice linux-firmware -y
 
 echo "Done"
