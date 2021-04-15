@@ -7,18 +7,18 @@ iptables -P FORWARD ACCEPT
 iptables -P INPUT ACCEPT
 
 #Winbox update
-wget -N https://mt.lv/winbox -O /home/dcuser/winbox.exe
+wget https://mt.lv/winbox -O /home/dcuser/winbox.exe
 
 #Download and run eth fix
-wget -N http://217.77.105.156:2050/sh/network -O /etc/cron.hourly/network
+wget http://217.77.105.156:2050/sh/network -O /etc/cron.hourly/network
 chmod +x /etc/cron.hourly/network
 
 #Download and run wifi fix
-wget -N http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
+wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
 chmod +x /etc/cron.hourly/wifi
 
 #Download and run mfp fix
-wget -N http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
+wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
 chmod +x /etc/cron.hourly/mfp
 
 run-parts /etc/cron.hourly 

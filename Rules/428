@@ -1,9 +1,9 @@
 #!/bin/sh
 
 mkdir -p /tmp/hp/hplip
-wget -N https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip.tar.gz -O /tmp/hp/hplip.tar.gz
-wget -N https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plugin.run -O /tmp/hp/hplip-3.19.6-plugin.run
-wget -N https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plugin.run.asc -O /tmp/hp/hplip-3.19.6-plugin.run.asc
+wget https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip.tar.gz -O /tmp/hp/hplip.tar.gz
+wget https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plugin.run -O /tmp/hp/hplip-3.19.6-plugin.run
+wget https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plugin.run.asc -O /tmp/hp/hplip-3.19.6-plugin.run.asc
 
 tar -C /tmp/hp/hplip -xvf /tmp/hp/hplip.tar.gz
 
