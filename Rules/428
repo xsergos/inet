@@ -1,9 +1,9 @@
 #!/bin/sh
 
 mkdir -p /tmp/hp/hplip
-wget https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip.tar.gz -O /tmp/hp/hplip.tar.gz
-wget https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plugin.run -O /tmp/hp/hplip-3.19.6-plugin.run
-wget https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plugin.run.asc -O /tmp/hp/hplip-3.19.6-plugin.run.asc
+wget -N https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip.tar.gz -O /tmp/hp/hplip.tar.gz
+wget -N https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plugin.run -O /tmp/hp/hplip-3.19.6-plugin.run
+wget -N https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plugin.run.asc -O /tmp/hp/hplip-3.19.6-plugin.run.asc
 
 tar -C /tmp/hp/hplip -xvf /tmp/hp/hplip.tar.gz
 
@@ -17,7 +17,7 @@ pip install tesserocr imutils pypdfocr scikit-image scipy
 
 cd /tmp/hp/hplip || exit
 
-sh configure --with-hpppddir=/usr/share/ppd/HP --libdir=/usr/lib64 --prefix=/usr --enable-udev-acl-rules --enable-qt4 --disable-qt5 --disable-libusb01_build --enable-doc-build --disable-cups-ppd-install --disable-foomatic-drv-install --disable-foomatic-ppd-install --disable-hpijs-install --disable-class-driver --disable-udev_sysfs_rules --disable-policykit --enable-cups-drv-install --enable-hpcups-install --enable-network-build --enable-dbus-build --enable-scan-build --enable-fax-build --enable-apparmor_build
+sh configure --with-hpppddir=/usr/share/ppd/HP --libdir=/usr/lib --prefix=/usr --enable-qt4 --disable-qt5 --enable-doc-build --disable-cups-ppd-install --disable-foomatic-drv-install --disable-libusb01_build --disable-foomatic-ppd-install --disable-hpijs-install --disable-class-driver --disable-udev_sysfs_rules --disable-policykit --enable-cups-drv-install --enable-hpcups-install --enable-network-build --enable-dbus-build --enable-scan-build --enable-fax-build --enable-apparmor_build
 
 make clean
 make
