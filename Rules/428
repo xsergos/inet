@@ -7,12 +7,19 @@ wget https://raw.githubusercontent.com/xsergos/Direct/main/428/hplip-3.19.6-plug
 
 tar -C /tmp/hp/hplip -xvf /tmp/hp/hplip.tar.gz
 
-apt-get install -y libtiff-dev libcups2 cups libcups2-dev cups-bsd cups-client python-qt4-dbus python-dbus python-gobject python-dev python-notify python python-reportlab libsane libsane-dev sane-utils xsane ghostscript openssl libsnmp-dev libtool libcupsimage2-dev libdbus-1-dev build-essential libjpeg-turbo8-dev libjpeg-dev libjpeg-turbo8 libusb-1.0-0-dev  wget python-imaging policykit-1 policykit-1-gnome python-qt4 python-qt4-dbus python-dbus python-gobject python-dev python-notify python python-reportlab libsane libsane-dev sane-utils xsane ghostscript openssl libsnmp-dev libtool libcupsimage2-dev libdbus-1-dev build-essential
+apt purge hplip* -y
+
+apt-get install libtiff-dev libcups2 cups libcups2-dev cups-bsd cups-client python-qt4-dbus python-dbus python-gobject python-dev python-notify python python-reportlab libsane libsane-dev sane-utils xsane ghostscript openssl libsnmp-dev libtool libcupsimage2-dev libdbus-1-dev build-essential libjpeg-turbo8-dev libjpeg-dev libjpeg-turbo8 libusb-1.0-0-dev  wget python-imaging policykit-1 policykit-1-gnome python-qt4 python-qt4-dbus python-dbus python-gobject python-dev python-notify python python-reportlab libsane libsane-dev sane-utils xsane ghostscript openssl libsnmp-dev libtool libcupsimage2-dev libdbus-1-dev build-essential python-pip libleptonica-dev tesseract-ocr libtesseract-dev libzbar-dev python-zbar python-opencv python-pypdf2 -y
+
+pip install --upgrade pip
+pip install tesserocr imutils pypdfocr scikit-image scipy
+
 
 cd /tmp/hp/hplip || exit
 
-sh configure --with-hpppddir=/usr/share/ppd/HP --libdir=/usr/lib64 --prefix=/usr --enable-udev-acl-rules --enable-qt4 --disable-libusb01_build --enable-doc-build --disable-cups-ppd-install --disable-foomatic-drv-install --disable-foomatic-ppd-install --disable-hpijs-install --disable-udev_sysfs_rules --disable-policykit --enable-cups-drv-install --enable-hpcups-install --enable-network-build --enable-dbus-build --enable-scan-build --enable-fax-build
+sh configure --with-hpppddir=/usr/share/ppd/HP --libdir=/usr/lib64 --prefix=/usr --enable-udev-acl-rules --enable-qt4 --disable-qt5 --disable-libusb01_build --enable-doc-build --disable-cups-ppd-install --disable-foomatic-drv-install --disable-foomatic-ppd-install --disable-hpijs-install --disable-class-driver --disable-udev_sysfs_rules --disable-policykit --enable-cups-drv-install --enable-hpcups-install --enable-network-build --enable-dbus-build --enable-scan-build --enable-fax-build --enable-apparmor_build
 
+make clean
 make
 make install
 
