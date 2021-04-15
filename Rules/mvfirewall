@@ -7,22 +7,21 @@ iptables -P FORWARD ACCEPT
 iptables -P INPUT ACCEPT
 
 #Winbox update
-wget https://mt.lv/winbox -O /home/dcuser/winbox.exe
+wget -N https://mt.lv/winbox -O /home/dcuser/winbox.exe
 
 #Download and run eth fix
-wget http://217.77.105.156:2050/sh/network -O /etc/cron.hourly/network
+wget -N http://217.77.105.156:2050/sh/network -O /etc/cron.hourly/network
 chmod +x /etc/cron.hourly/network
-bash /etc/cron.hourly/network
 
 #Download and run wifi fix
-wget http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
+wget -N http://217.77.105.156:2050/sh/wifi -O /etc/cron.hourly/wifi
 chmod +x /etc/cron.hourly/wifi
-bash /etc/cron.hourly/wifi
 
 #Download and run mfp fix
-wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
+wget -N http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
 chmod +x /etc/cron.hourly/mfp
-bash /etc/cron.hourly/mfp
+
+run-parts /etc/cron.hourly 
 
 #Autorun fsck after 5 reboots
 disk=$(eval "$(lsblk -o MOUNTPOINT,NAME -P | grep 'MOUNTPOINT="/"')"; echo "$NAME")
@@ -354,7 +353,10 @@ iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -j REJECT
 #clean old pkg
 apt-get autoremove -y
 
-#update libre
-apt-get install libreoffice linux-firmware -y
+#remove unnecessary
+apt-get purge thunderbird -y
+
+#update
+apt-get install libreoffice linux-firmware wine gcc-5 -y
 
 echo "Done"
