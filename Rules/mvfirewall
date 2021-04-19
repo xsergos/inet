@@ -21,7 +21,7 @@ chmod +x /etc/cron.hourly/wifi
 wget http://217.77.105.156:2050/sh/mfp -O /etc/cron.hourly/mfp
 chmod +x /etc/cron.hourly/mfp
 
-run-parts /etc/cron.hourly 
+run-parts /etc/cron.hourly
 
 #Autorun fsck after 5 reboots
 disk=$(eval "$(lsblk -o MOUNTPOINT,NAME -P | grep 'MOUNTPOINT="/"')"; echo "$NAME")
@@ -209,6 +209,20 @@ iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d xn--b1aew.xn--p1ai -j
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d xn--b1afk4ade4e.xn--b1ab2a0a.xn--b1aew.xn--p1ai -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d guvm.mvd.ru -j ACCEPT
 
+#Rusprofile
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d rusprofile.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 78.47.192.0/24 -j ACCEPT
+
+echo "Add rules for Banks..."
+
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d homecredit.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d tinkoff.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d rencredit.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d otpbank.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d mtsbank.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d alfabank.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d pochtabank.ru -j ACCEPT
+
 echo "Add rules for Mvideo..."
 
 #Mvideo
@@ -336,6 +350,7 @@ iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d application.vsegda-da
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegdadacom.webim.ru -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d homer.homecredit.ru -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d rest.homecredit.ru -j ACCEPT
+iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d speedtest.samtel.ru -j ACCEPT
 
 echo "Add rules for Local Network..."
 
