@@ -1,5 +1,5 @@
 #!/bin/sh
-#version 0.1.5
+#version 1.0
 
 #Clean firewall
 iptables -F
@@ -337,7 +337,7 @@ iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 108.177.14.0/24 -j AC
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 172.217.20.0/24 -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 142.250.179.0/24 -j ACCEPT
 
-#Other
+#Other Bank stuff
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d p.kreditotdel.ru -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 178.248.236.168 -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d 92.255.48.8 -j ACCEPT
@@ -350,6 +350,8 @@ iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d application.vsegda-da
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d vsegdadacom.webim.ru -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d homer.homecredit.ru -j ACCEPT
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d rest.homecredit.ru -j ACCEPT
+
+#Speedtest
 iptables -w -A OUTPUT -p tcp -m multiport --port 80,443 -d speedtest.samtel.ru -j ACCEPT
 
 echo "Add rules for Local Network..."
